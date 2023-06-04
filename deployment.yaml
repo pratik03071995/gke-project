@@ -1,0 +1,26 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health
+  template:
+    metadata:
+      labels:
+        app: health
+    spec:
+      containers:
+      - name: health-app
+        # Replace $LOCATION with your Artifact Registry location (e.g., us-west1).
+        # Replace $GCLOUD_PROJECT with your project ID.
+        image: us-central1-docker.pkg.dev/meta-spirit-382121/health-repo/my_flask_app:latest
+        # This app listens on port 8080 for web traffic by default.
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PORT
+            value: "8080"
